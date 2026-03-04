@@ -34,7 +34,6 @@ export function UpdatePasswordForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -48,9 +47,6 @@ export function UpdatePasswordForm({
       if (error) throw error;
 
       setSuccess(true);
-
-      // Optional redirect after success
-      // router.push("/protected");
     } catch (err: any) {
       setError(err.message ?? "An error occurred");
     } finally {
@@ -58,6 +54,24 @@ export function UpdatePasswordForm({
     }
   }
 
+  // -------------------------
+  // SUCCESS SCREEN
+  // -------------------------
+  if (success) {
+    return (
+      <div className="flex flex-col items-center text-center gap-4 p-4">
+        <h1 className="text-2xl font-bold">Password updated</h1>
+        <p className="text-muted-foreground text-sm max-w-xs">
+          Thank you — your password has been reset. You should now be able to
+          log in to the app with your new password.
+        </p>
+      </div>
+    );
+  }
+
+  // -------------------------
+  // FORM SCREEN
+  // -------------------------
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -136,12 +150,6 @@ export function UpdatePasswordForm({
             {isLoading ? "Saving..." : "Save new password"}
           </Button>
         </Field>
-
-        {success && (
-          <FieldDescription className="text-center text-green-600">
-            Your password has been updated. You can now log in.
-          </FieldDescription>
-        )}
       </FieldGroup>
     </form>
   );
