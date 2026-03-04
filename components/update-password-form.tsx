@@ -1,78 +1,148 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export function UpdatePasswordForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+}: React.ComponentPropsWithoutRef<"form">) {
+  const supabase = createClient();
   const router = useRouter();
 
-  const handleForgotPassword = async (e: React.FormEvent) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const supabase = createClient();
-    setIsLoading(true);
     setError(null);
+    setSuccess(false);
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+
+      setSuccess(true);
+
+      // Optional redirect after success
+      // router.push("/protected");
+    } catch (err: any) {
+      setError(err.message ?? "An error occurred");
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-          <CardDescription>
-            Please enter your new password below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleForgotPassword}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="password">New password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="New password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Saving..." : "Save new password"}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      onSubmit={handleSubmit}
+      {...props}
+    >
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h1 className="text-2xl font-bold">Reset your password</h1>
+          <p className="text-sm text-muted-foreground text-balance">
+            Choose a new password to secure your account.
+          </p>
+        </div>
+
+        {/* New Password */}
+        <Field>
+          <FieldLabel htmlFor="password">New Password</FieldLabel>
+          <div className="relative">
+            <Input
+              id="password"
+              type={passwordVisible ? "text" : "password"}
+              placeholder="••••••••••••••••"
+              className="pr-10"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="absolute right-0 top-0 h-full px-3 hover:bg-transparent text-muted-foreground"
+            >
+              {passwordVisible ? <EyeOffIcon /> : <EyeIcon />}
+            </Button>
+          </div>
+        </Field>
+
+        {/* Confirm Password */}
+        <Field>
+          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+          <div className="relative">
+            <Input
+              id="confirmPassword"
+              type={confirmVisible ? "text" : "password"}
+              placeholder="••••••••••••••••"
+              className="pr-10"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setConfirmVisible(!confirmVisible)}
+              className="absolute right-0 top-0 h-full px-3 hover:bg-transparent text-muted-foreground"
+            >
+              {confirmVisible ? <EyeOffIcon /> : <EyeIcon />}
+            </Button>
+          </div>
+
+          {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+        </Field>
+
+        {/* Submit */}
+        <Field>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading || !password || !confirmPassword}
+          >
+            {isLoading ? "Saving..." : "Save new password"}
+          </Button>
+        </Field>
+
+        {success && (
+          <FieldDescription className="text-center text-green-600">
+            Your password has been updated. You can now log in.
+          </FieldDescription>
+        )}
+      </FieldGroup>
+    </form>
   );
 }

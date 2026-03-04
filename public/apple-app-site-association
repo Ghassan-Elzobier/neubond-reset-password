@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appID": "TEAMID.com.neubond.appname",
+        "paths": [
+          "/auth/confirm/*",
+          "/auth/update-password/*"
+        ]
+      }
+    ]
+  }
+}
