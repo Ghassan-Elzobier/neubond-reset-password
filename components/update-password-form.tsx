@@ -4,22 +4,15 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-  FieldDescription,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function UpdatePasswordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
   const supabase = createClient();
-  const router = useRouter();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
@@ -31,11 +24,22 @@ export function UpdatePasswordForm({
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Password rules
+  const passwordValid = password.length >= 8 && /[^A-Za-z0-9]/.test(password); // at least one symbol
+
+  const passwordsMatch =
+    confirmPassword.length > 0 && password === confirmPassword;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (password !== confirmPassword) {
+    if (!passwordValid) {
+      setError("Password must be at least 8 characters and include a symbol.");
+      return;
+    }
+
+    if (!passwordsMatch) {
       setError("Passwords do not match.");
       return;
     }
@@ -47,6 +51,9 @@ export function UpdatePasswordForm({
       if (error) throw error;
 
       setSuccess(true);
+
+      // Optional: sign out after success
+      await supabase.auth.signOut();
     } catch (err: any) {
       setError(err.message ?? "An error occurred");
     } finally {
@@ -93,7 +100,7 @@ export function UpdatePasswordForm({
             <Input
               id="password"
               type={passwordVisible ? "text" : "password"}
-              placeholder="••••••••••••••••"
+              placeholder="Create a strong password"
               className="pr-10"
               required
               value={password}
@@ -103,6 +110,7 @@ export function UpdatePasswordForm({
             <Button
               type="button"
               variant="ghost"
+              tabIndex={-1}
               size="icon"
               onClick={() => setPasswordVisible(!passwordVisible)}
               className="absolute right-0 top-0 h-full px-3 hover:bg-transparent text-muted-foreground"
@@ -110,6 +118,20 @@ export function UpdatePasswordForm({
               {passwordVisible ? <EyeOffIcon /> : <EyeIcon />}
             </Button>
           </div>
+
+          {/* Password rule feedback */}
+          {password.length > 0 && (
+            <p
+              className={cn(
+                "text-sm mt-1",
+                passwordValid ? "text-green-600" : "text-red-500",
+              )}
+            >
+              {passwordValid
+                ? "Password strength looks good."
+                : "Must be at least 8 characters and include a symbol."}
+            </p>
+          )}
         </Field>
 
         {/* Confirm Password */}
@@ -119,7 +141,7 @@ export function UpdatePasswordForm({
             <Input
               id="confirmPassword"
               type={confirmVisible ? "text" : "password"}
-              placeholder="••••••••••••••••"
+              placeholder="Type it again to confirm"
               className="pr-10"
               required
               value={confirmPassword}
@@ -129,6 +151,7 @@ export function UpdatePasswordForm({
             <Button
               type="button"
               variant="ghost"
+              tabIndex={-1}
               size="icon"
               onClick={() => setConfirmVisible(!confirmVisible)}
               className="absolute right-0 top-0 h-full px-3 hover:bg-transparent text-muted-foreground"
@@ -136,6 +159,18 @@ export function UpdatePasswordForm({
               {confirmVisible ? <EyeOffIcon /> : <EyeIcon />}
             </Button>
           </div>
+
+          {/* Live match feedback */}
+          {confirmPassword.length > 0 && (
+            <p
+              className={cn(
+                "text-sm mt-1",
+                passwordsMatch ? "text-green-600" : "text-red-500",
+              )}
+            >
+              {passwordsMatch ? "Passwords match." : "Passwords do not match."}
+            </p>
+          )}
 
           {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
         </Field>
@@ -145,7 +180,13 @@ export function UpdatePasswordForm({
           <Button
             type="submit"
             className="w-full"
-            disabled={isLoading || !password || !confirmPassword}
+            disabled={
+              isLoading ||
+              !passwordValid ||
+              !passwordsMatch ||
+              !password ||
+              !confirmPassword
+            }
           >
             {isLoading ? "Saving..." : "Save new password"}
           </Button>
