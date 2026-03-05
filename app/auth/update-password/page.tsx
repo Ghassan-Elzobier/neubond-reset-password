@@ -2,6 +2,7 @@
 
 import { GalleryVerticalEnd } from "lucide-react";
 import { UpdatePasswordForm } from "@/components/update-password-form";
+import { AppPreview } from "@/components/app-preview";
 
 export default function UpdatePasswordPage() {
   return (
@@ -26,8 +27,8 @@ export default function UpdatePasswordPage() {
         </div>
       </div>
 
-      {/* Right column image */}
-      <div className="relative hidden lg:block bg-[#8A65BA]"></div>
+      {/* Right column preview */}
+      <AppPreview />
     </div>
   );
 }
