@@ -11,7 +11,7 @@ export default function UpdatePasswordPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         {/* Branding */}
         <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
+          <a href="/" className="flex items-center gap-2 font-medium">
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GalleryVerticalEnd className="size-4" />
             </div>
@@ -27,8 +27,18 @@ export default function UpdatePasswordPage() {
         </div>
       </div>
 
-      {/* Right column preview */}
-      <AppPreview />
+      {/* Right column: message + preview */}
+      <div className="relative hidden lg:flex flex-col items-center justify-center bg-[#8A65BA] p-10 text-white">
+        {/* Friendly message */}
+        <div className="max-w-md text-center mb-8">
+          <h2 className="text-2xl font-semibold">
+            Create a new password to regain access to your account.
+          </h2>
+        </div>
+
+        {/* App preview */}
+        <AppPreview />
+      </div>
     </div>
   );
 }

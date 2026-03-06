@@ -2,7 +2,7 @@
   "applinks": {
     "details": [
       {
-        "appID": "TEAMID.com.neubond.appname",
+        "appID": "ZLAN24X259.com.nabeel.neubond2",
         "paths": [
           "/auth/confirm/*",
           "/auth/update-password/*"
