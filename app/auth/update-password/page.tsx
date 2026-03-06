@@ -3,6 +3,7 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { UpdatePasswordForm } from "@/components/update-password-form";
 import { AppPreview } from "@/components/app-preview";
+import Image from "next/image";
 
 export default function UpdatePasswordPage() {
   return (
@@ -11,11 +12,18 @@ export default function UpdatePasswordPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         {/* Branding */}
         <div className="flex justify-center gap-2 md:justify-start">
-          <a href="/" className="flex items-center gap-2 font-medium">
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
-            </div>
-            Neubond Ltd.
+          <a
+            href="https://neubond.co.uk/"
+            className="flex items-center gap-2 font-medium"
+          >
+            <Image
+              src="/neubond_logo.png"
+              alt="Neubond logo"
+              width={180} // choose the width you want
+              height={0} // required to allow auto height
+              sizes="100vw" // ensures correct responsive behaviour
+              style={{ height: "auto" }} // keeps aspect ratio
+            />
           </a>
         </div>
 
