@@ -20,13 +20,14 @@ export function UpdatePasswordForm({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [confirmTouched, setConfirmTouched] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Password rules
-  const passwordValid = password.length >= 8 && /[^A-Za-z0-9]/.test(password); // at least one symbol
-
+  const passwordValid = password.length >= 8 && /[^A-Za-z0-9]/.test(password);
   const passwordsMatch =
     confirmPassword.length > 0 && password === confirmPassword;
 
@@ -35,7 +36,7 @@ export function UpdatePasswordForm({
     setError(null);
 
     if (!passwordValid) {
-      setError("Password must be at least 8 characters and include a symbol.");
+      setError("Password must be 8+ characters with a symbol.");
       return;
     }
 
@@ -51,8 +52,6 @@ export function UpdatePasswordForm({
       if (error) throw error;
 
       setSuccess(true);
-
-      // Optional: sign out after success
       await supabase.auth.signOut();
     } catch (err: any) {
       setError(err.message ?? "An error occurred");
@@ -61,50 +60,58 @@ export function UpdatePasswordForm({
     }
   }
 
-  // -------------------------
-  // SUCCESS SCREEN
-  // -------------------------
   if (success) {
     return (
-      <div className="flex flex-col items-center text-center gap-4 p-4">
+      <div className="flex flex-col items-center text-center gap-3 p-4">
         <h1 className="text-2xl font-bold">Password updated</h1>
         <p className="text-muted-foreground text-sm max-w-xs">
-          Thank you — your password has been reset. You should now be able to
-          log in to the app with your new password.
+          Thank you — your password has been reset. You can now log in to the
+          app with your new password.
         </p>
       </div>
     );
   }
 
-  // -------------------------
-  // FORM SCREEN
-  // -------------------------
   return (
     <form
-      className={cn("flex flex-col gap-6", className)}
+      className={cn("flex flex-col gap-3", className)}
       onSubmit={handleSubmit}
       {...props}
     >
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+      <FieldGroup className="gap-3">
+        {error && (
+          <div className="text-sm text-red-500 text-center mb-1">{error}</div>
+        )}
+
+        {/* Header spacing adjusted here */}
+        <div className="flex flex-col items-center gap-1.5 text-center">
           <h1 className="text-2xl font-bold">Reset your password</h1>
-          <p className="text-sm text-muted-foreground text-balance">
+          <p className="text-sm text-muted-foreground text-balance mb-3.5">
             Choose a new password to secure your account.
           </p>
         </div>
 
         {/* New Password */}
-        <Field>
+        <Field className="gap-1">
           <FieldLabel htmlFor="password">New Password</FieldLabel>
+
           <div className="relative">
             <Input
               id="password"
               type={passwordVisible ? "text" : "password"}
               placeholder="Create a strong password"
-              className="pr-10"
+              className={cn(
+                "pr-10 transition-colors",
+                password.length > 0 && passwordValid && "border-green-600",
+                passwordTouched &&
+                  password.length > 0 &&
+                  !passwordValid &&
+                  "border-red-500",
+              )}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => setPasswordTouched(true)}
             />
 
             <Button
@@ -119,33 +126,50 @@ export function UpdatePasswordForm({
             </Button>
           </div>
 
-          {/* Password rule feedback */}
-          {password.length > 0 && (
-            <p
-              className={cn(
-                "text-sm mt-1",
-                passwordValid ? "text-green-600" : "text-red-500",
-              )}
-            >
-              {passwordValid
-                ? "Password strength looks good."
-                : "Must be at least 8 characters and include a symbol."}
-            </p>
-          )}
+          <p className="text-sm mt-0.5 h-5 mb-2">
+            {!passwordTouched && !passwordValid && (
+              <span className="text-muted-foreground">
+                Use 8+ characters with a symbol.
+              </span>
+            )}
+
+            {password.length > 0 && passwordValid && (
+              <span className="text-green-600">
+                Password strength looks good.
+              </span>
+            )}
+
+            {passwordTouched && password.length > 0 && !passwordValid && (
+              <span className="text-red-500">
+                Must be 8+ characters with a symbol.
+              </span>
+            )}
+          </p>
         </Field>
 
         {/* Confirm Password */}
-        <Field>
+        <Field className="gap-1">
           <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+
           <div className="relative">
             <Input
               id="confirmPassword"
               type={confirmVisible ? "text" : "password"}
               placeholder="Type it again to confirm"
-              className="pr-10"
+              className={cn(
+                "pr-10 transition-colors",
+                confirmPassword.length > 0 &&
+                  passwordsMatch &&
+                  "border-green-600",
+                confirmTouched &&
+                  confirmPassword.length > 0 &&
+                  !passwordsMatch &&
+                  "border-red-500",
+              )}
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={() => setConfirmTouched(true)}
             />
 
             <Button
@@ -160,33 +184,24 @@ export function UpdatePasswordForm({
             </Button>
           </div>
 
-          {/* Live match feedback */}
-          {confirmPassword.length > 0 && (
-            <p
-              className={cn(
-                "text-sm mt-1",
-                passwordsMatch ? "text-green-600" : "text-red-500",
-              )}
-            >
-              {passwordsMatch ? "Passwords match." : "Passwords do not match."}
-            </p>
-          )}
+          <p className="text-sm mt-0.5 h-5 mb-4">
+            {confirmPassword.length > 0 && passwordsMatch && (
+              <span className="text-green-600">Passwords match.</span>
+            )}
 
-          {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+            {confirmTouched &&
+              confirmPassword.length > 0 &&
+              !passwordsMatch && (
+                <span className="text-red-500">Passwords do not match.</span>
+              )}
+          </p>
         </Field>
 
-        {/* Submit */}
         <Field>
           <Button
             type="submit"
             className="w-full"
-            disabled={
-              isLoading ||
-              !passwordValid ||
-              !passwordsMatch ||
-              !password ||
-              !confirmPassword
-            }
+            disabled={isLoading || !password || !confirmPassword}
           >
             {isLoading ? "Saving..." : "Save new password"}
           </Button>
