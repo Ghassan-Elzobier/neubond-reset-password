@@ -16,15 +16,18 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     });
+
     if (!error) {
-      // redirect user to specified redirect URL or root of app
+      // If this was a signup verification, sign them out immediately
+      if (type === "signup") {
+        await supabase.auth.signOut();
+      }
+
       redirect(next);
     } else {
-      // redirect the user to an error page with some instructions
-      redirect(`/auth/error?error=${error?.message}`);
+      redirect(`/auth/error?error=${error.message}`);
     }
   }
 
-  // redirect the user to an error page with some instructions
   redirect(`/auth/error?error=No token hash or type`);
 }
