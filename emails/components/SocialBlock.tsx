@@ -1,71 +1,99 @@
 // /emails/components/SocialBlock.tsx
-import { Section, Row, Column, Img, Link } from "@react-email/components";
+import {
+  Section,
+  Row,
+  Column,
+  Img,
+  Link,
+  Container,
+} from "@react-email/components";
 
 export default function SocialBlock() {
   return (
-    <Section className="nb-social-block">
-      <h2 className="nb-social-header">Stay connected with us</h2>
-
-      <p className="nb-social-text">
-        We’ll be sharing updates, behind‑the‑scenes progress, and insights into
-        the development of Loop I and our wider rehabilitation technology.
-      </p>
-
-      <table
-        className="nb-social-table"
-        width="100%"
-        cellPadding="0"
-        cellSpacing="0"
-        role="presentation"
-      >
-        <tr>
-          {/* LEFT COLUMN — LinkedIn */}
-          <td className="nb-social-col" width="50%">
+    <Section
+      style={{
+        backgroundColor: "#8A65BA",
+        color: "#fff",
+        width: "100%",
+        maxWidth: "700px",
+        borderTopLeftRadius: "6px",
+        borderTopRightRadius: "6px",
+        tableLayout: "auto",
+      }}
+    >
+      <Row>
+        <Column
+          style={{
+            width: "310px",
+            padding: "20px",
+            display: "inline-block",
+          }}
+        >
+          <Link href="https://www.linkedin.com/posts/neubond_happy-holidays-from-neubond-as-2025-comes-activity-7411864981874384896-ExA0?utm_source=share&utm_medium=member_desktop&rcm=ACoAADMVNHcBJQtFf0DnDBvcvwmlaUGCsVYzdi0">
             <Img
-              src="https://resend-attachments.s3.amazonaws.com/5a1c2f2e-8e1a-4d8e-9d2f-1b0c8b3f9b77"
+              src="https://app.neubond.co.uk/email/LinkedIn_Post_Compressed.jpg"
               alt="LinkedIn preview card"
-              className="nb-social-preview"
               style={{
                 width: "100%",
                 height: "auto",
                 borderRadius: "6px",
-                display: "block",
               }}
             />
-
+          </Link>
+        </Column>
+        <Column
+          style={{
+            width: "310px",
+            padding: "20px",
+            display: "inline-block",
+          }}
+        >
+          <h1 style={{ marginTop: "2px", lineHeight: 1.1 }}>
+            Stay connected with Neubond
+          </h1>
+          <p>
+            From clinical milestones to company development and partnerships, we
+            share these moments across the year. Follow our journey on LinkedIn!
+          </p>
+          <div
+            style={{
+              textAlign: "center",
+              paddingTop: "10px",
+            }}
+          >
             <Link
               href="https://www.linkedin.com/company/neubond"
-              target="_blank"
-              className="nb-social-btn"
-            >
-              Follow us on LinkedIn
-            </Link>
-          </td>
-
-          {/* RIGHT COLUMN — Website */}
-          <td className="nb-social-col" width="50%">
-            <Img
-              src="https://resend-attachments.s3.amazonaws.com/3c1d2f2e-9e1a-4d8e-9d2f-1b0c8b3f9b88"
-              alt="Website preview card"
-              className="nb-social-preview"
               style={{
-                width: "100%",
-                height: "auto",
+                textDecoration: "none",
+                color: "#8A65BA",
+                backgroundColor: "#fff",
+                padding: "10px 10px",
                 borderRadius: "6px",
-                display: "block",
+                fontWeight: "bold",
+                display: "inline-block",
               }}
-            />
-
-            <Link
-              href="https://neubond.co.uk/"
-              target="_blank"
-              className="nb-social-btn"
             >
-              Visit our website
+              <Img
+                src="https://app.neubond.co.uk/email/linkedin_icon.png"
+                alt="globe Icon"
+                width="16px"
+                style={{
+                  verticalAlign: "middle",
+                  display: "inline-block",
+                  padding: "10px",
+                }}
+              />
+              <span
+                style={{
+                  verticalAlign: "middle",
+                }}
+              >
+                Follow us on LinkedIn →
+              </span>
             </Link>
-          </td>
-        </tr>
-      </table>
+          </div>
+        </Column>
+      </Row>
     </Section>
   );
 }

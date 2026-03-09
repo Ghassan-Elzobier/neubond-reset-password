@@ -6,6 +6,7 @@ export default function Footer() {
     <Section
       style={{
         backgroundColor: "#8A65BA",
+        color: "#fff",
       }}
     >
       <Row>
@@ -16,39 +17,65 @@ export default function Footer() {
           }}
         >
           <Img
-            src="../static/Logo_white_Compressed.png"
+            src="https://app.neubond.co.uk/email/Logo_white_Compressed.png"
             alt="Neubond Logo - White"
             width="200px"
           />
         </Column>
       </Row>
-      <Row style={{ textDecoration: "none" }}>
+      <Row>
         <Column align="center">
-          <Link href="mailto:info@neubond.co.uk">
+          <Link
+            href="mailto:info@neubond.co.uk"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Img
-              src="../static/mail_icon.png"
+              src="https://app.neubond.co.uk/email/mail_icon.png"
               alt="Mail Icon"
               width="16px"
               style={{
                 display: "inline-block",
+                verticalAlign: "middle",
                 padding: "10px",
               }}
             />
-            info@neubond.co.uk
+            <span
+              style={{
+                verticalAlign: "middle",
+              }}
+            >
+              info@neubond.co.uk
+            </span>
           </Link>
         </Column>
-        <Column align="center">
-          <Link href="neubond.co.uk">
+        <Column valign="middle" align="center">
+          <Link
+            href="neubond.co.uk"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Img
-              src="../static/globe_icon.png"
+              src="https://app.neubond.co.uk/email/globe_icon.png"
               alt="globe Icon"
               width="16px"
               style={{
+                verticalAlign: "middle",
                 display: "inline-block",
                 padding: "10px",
               }}
             />
-            neubond.co.uk
+            <span
+              style={{
+                verticalAlign: "middle",
+              }}
+            >
+              neubond.co.uk
+            </span>
           </Link>
         </Column>
       </Row>

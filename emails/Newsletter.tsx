@@ -24,7 +24,8 @@ export default function Newsletter() {
           padding: 0,
           backgroundColor: "#F7F3FB",
           fontFamily:
-            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
+            "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
+          lineHeight: "1.5",
         }}
       >
         <Container
