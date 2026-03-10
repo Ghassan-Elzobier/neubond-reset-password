@@ -1,10 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   cacheComponents: true,
-};
 
-module.exports = {
   async headers() {
     return [
       {
@@ -16,8 +13,17 @@ module.exports = {
           },
         ],
       },
+      {
+        source: '/apple-app-site-association',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+        ],
+      }
     ];
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
