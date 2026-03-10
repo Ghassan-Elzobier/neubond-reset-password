@@ -3,9 +3,7 @@
     "details": [
       {
         "appID": [
-          "ZLAN24X259.com.nabeel.neubond2",
-          "ZLAN24X259.com.neubond.neubondtest",
-          "ZLAN24X259.com.neubond.neubondresearch"
+          "ZLAN24X259.com.nabeel.neubond2"
         ],
         "paths": [
           "/auth/*"
