@@ -3,9 +3,7 @@
     "details": [
       {
         "apps": [],
-        "appID": [
-          "ZLAN24X259.com.nabeel.neubond2"
-        ],
+        "appID": "ZLAN24X259.com.nabeel.neubond2",
         "paths": [
           "*"
         ]
