@@ -26,6 +26,7 @@ export default function Newsletter() {
           fontFamily:
             "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
           lineHeight: "1.5",
+          fontSize: "17px",
         }}
       >
         <Container
