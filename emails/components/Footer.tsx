@@ -53,7 +53,7 @@ export default function Footer() {
         </Column>
         <Column valign="middle" align="center">
           <Link
-            href="neubond.co.uk"
+            href="https://neubond.co.uk/"
             style={{
               textDecoration: "none",
               color: "inherit",

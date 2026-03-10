@@ -1,7 +1,7 @@
 // /emails/components/LookingAheadSection.tsx
 import { Section } from "@react-email/components";
 
-export default function LookingAheadSection() {
+export default function WhatIsNextSection() {
   return (
     <Section
       style={{
@@ -20,18 +20,24 @@ export default function LookingAheadSection() {
           marginTop: "5px",
         }}
       >
-        Looking ahead
+        What's coming next!
       </h1>
 
       <p>
-        We’ll continue sharing updates on our progress and more background about
-        Neubond's vision. Thank you for being part of our journey. We look
-        forward to sharing each step as Loop I continues to take shape.
+        <strong>We'll be busy with our next phase of development:</strong>
       </p>
 
-      <p>
-        <strong>Neubond Team</strong>
-      </p>
+      <ul>
+        <li>
+          Finalising the design of <strong>Loop I</strong>
+        </li>
+        <li>
+          Running <strong>small user tests</strong> to learn from real-world use
+        </li>
+        <li>
+          <strong>Beginning early manufacturing</strong>
+        </li>
+      </ul>
     </Section>
   );
 }

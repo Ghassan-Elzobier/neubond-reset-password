@@ -21,7 +21,7 @@ export default function SocialBlock() {
         tableLayout: "auto",
       }}
     >
-      <Row>
+      <Row align="center">
         <Column
           style={{
             width: "310px",
@@ -48,7 +48,7 @@ export default function SocialBlock() {
             display: "inline-block",
           }}
         >
-          <h1 style={{ marginTop: "2px", lineHeight: 1.1 }}>
+          <h1 style={{ marginTop: 0, lineHeight: 1.1 }}>
             Stay connected with Neubond
           </h1>
           <p>
@@ -62,7 +62,7 @@ export default function SocialBlock() {
             }}
           >
             <Link
-              href="https://www.linkedin.com/company/neubond"
+              href="https://www.linkedin.com/company/neubond/posts/?feedView=all"
               style={{
                 textDecoration: "none",
                 color: "#8A65BA",

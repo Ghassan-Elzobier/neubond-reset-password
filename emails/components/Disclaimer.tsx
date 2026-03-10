@@ -14,7 +14,8 @@ export default function Disclaimer() {
       <p>
         You are receiving this email because you interacted with Neubond via our
         website, completed an expression of interest survey, attended a trade
-        show, or opted in to receive updates about Neubond. Unsubscribe
+        show, or opted in to receive updates about Neubond.{" "}
+        <a href="{{{RESEND_UNSUBSCRIBE_URL}}}">Unsubscribe</a>
       </p>
     </Section>
   );

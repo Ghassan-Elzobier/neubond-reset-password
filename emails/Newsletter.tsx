@@ -10,6 +10,7 @@ import SectionImage from "./components/SectionImage";
 import SocialBlock from "./components/SocialBlock";
 import Disclaimer from "./components/Disclaimer";
 import Footer from "./components/Footer";
+import WhatIsNextSection from "./components/WhatIsNextSection";
 
 export default function Newsletter() {
   return (
@@ -22,7 +23,6 @@ export default function Newsletter() {
         style={{
           margin: 0,
           padding: 0,
-          backgroundColor: "#F7F3FB",
           fontFamily:
             "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
           lineHeight: "1.5",
@@ -33,21 +33,19 @@ export default function Newsletter() {
             maxWidth: "700px",
             margin: "0 auto",
             padding: 0,
+            backgroundColor: "#fff",
           }}
         >
           <TopBar />
           <Logo />
           <Hero />
-          <SectionImage
-            src="/emails/static/hero_image_V2_compressed.jpg"
-            alt="Fallback hero"
-          />
           <VisionSection />
           <SectionImage
-            src="/emails/static/Marketing-Test-User_cropped_v2_compressed.jpg"
-            alt="Section header image"
+            src="https://app.neubond.co.uk/email/Marketing-Test-User_cropped_v2_compressed.jpg"
+            alt="User testing our Neubond device"
           />
           <WorkingOnSection />
+          <WhatIsNextSection />
           <LookingAheadSection />
           <SocialBlock />
           <Footer />
