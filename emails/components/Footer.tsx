@@ -32,16 +32,19 @@ export default function Footer() {
               color: "inherit",
             }}
           >
-            <Img
-              src="https://app.neubond.co.uk/email/mail_icon.png"
-              alt="Mail Icon"
-              width="16px"
+            <span
               style={{
                 display: "inline-block",
                 verticalAlign: "middle",
                 padding: "10px",
               }}
-            />
+            >
+              <Img
+                src="https://app.neubond.co.uk/email/mail_icon.png"
+                alt="Mail Icon"
+                width="16px"
+              />
+            </span>
             <span
               style={{
                 verticalAlign: "middle",
@@ -59,16 +62,19 @@ export default function Footer() {
               color: "inherit",
             }}
           >
-            <Img
-              src="https://app.neubond.co.uk/email/globe_icon.png"
-              alt="globe Icon"
-              width="16px"
+            <span
               style={{
-                verticalAlign: "middle",
                 display: "inline-block",
+                verticalAlign: "middle",
                 padding: "10px",
               }}
-            />
+            >
+              <Img
+                src="https://app.neubond.co.uk/email/globe_icon.png"
+                alt="globe Icon"
+                width="16px"
+              />
+            </span>
             <span
               style={{
                 verticalAlign: "middle",
