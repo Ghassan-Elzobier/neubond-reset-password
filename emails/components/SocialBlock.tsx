@@ -21,10 +21,14 @@ export default function SocialBlock() {
         tableLayout: "auto",
       }}
     >
-      <Row align="center">
+      <Row
+        style={{
+          textAlign: "center",
+        }}
+      >
         <Column
           style={{
-            width: "310px",
+            maxWidth: "310px",
             padding: "20px",
             display: "inline-block",
           }}
@@ -43,7 +47,7 @@ export default function SocialBlock() {
         </Column>
         <Column
           style={{
-            width: "310px",
+            maxWidth: "310px",
             padding: "20px",
             display: "inline-block",
           }}
@@ -77,7 +81,7 @@ export default function SocialBlock() {
                 style={{
                   display: "inline-block",
                   verticalAlign: "middle",
-                  padding: "10px",
+                  marginRight: "10px",
                 }}
               >
                 <Img

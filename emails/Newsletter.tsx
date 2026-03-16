@@ -15,10 +15,10 @@ import WhatIsNextSection from "./components/WhatIsNextSection";
 export default function Newsletter() {
   return (
     <Html>
-      <Head />
-
-      <Preview>Neubond Newsletter — Updates & Progress</Preview>
-
+      <Head></Head>
+      <Preview>
+        Discover how Loop I is transforming stroke rehabilitation
+      </Preview>
       <Body
         style={{
           margin: 0,

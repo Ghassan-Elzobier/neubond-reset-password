@@ -10,7 +10,7 @@ export default function Logo() {
         style={{ textDecoration: "none" }}
       >
         <Img
-          src="https://resend-attachments.s3.amazonaws.com/10ac4e5e-d039-4f39-a151-2451c68bfa14"
+          src="https://app.neubond.co.uk/email/neubond_logo.jpg"
           alt='Colorful gradient text displaying the word "new bond" in pink, purple, and blue hues.'
           width={337}
           height={69}

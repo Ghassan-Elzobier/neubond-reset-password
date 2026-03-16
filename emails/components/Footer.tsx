@@ -36,7 +36,7 @@ export default function Footer() {
               style={{
                 display: "inline-block",
                 verticalAlign: "middle",
-                padding: "10px",
+                marginRight: "10px",
               }}
             >
               <Img
@@ -66,7 +66,7 @@ export default function Footer() {
               style={{
                 display: "inline-block",
                 verticalAlign: "middle",
-                padding: "10px",
+                marginRight: "10px",
               }}
             >
               <Img
