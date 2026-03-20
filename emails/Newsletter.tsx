@@ -38,7 +38,7 @@ export default function Newsletter() {
           }}
         >
           <TopBar />
-          <Logo />
+          <Logo width="337px" />
           <Hero />
           <VisionSection />
           <SectionImage

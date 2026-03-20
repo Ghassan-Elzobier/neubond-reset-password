@@ -1,9 +1,10 @@
 // /emails/components/Logo.tsx
 import { Section, Img, Link } from "@react-email/components";
+import { Props, ScriptProps } from "next/script";
 
-export default function Logo() {
+export default function Logo({ width }: { width: string }) {
   return (
-    <Section style={{ textAlign: "center" }}>
+    <Section style={{ textAlign: "center", margin: "0 auto" }}>
       <Link
         href="https://neubond.co.uk/"
         target="_blank"
@@ -12,8 +13,8 @@ export default function Logo() {
         <Img
           src="https://app.neubond.co.uk/email/neubond_logo.jpg"
           alt='Colorful gradient text displaying the word "new bond" in pink, purple, and blue hues.'
-          width={337}
-          height={69}
+          width={width}
+          height="auto"
           className="nb-logo"
           style={{
             display: "block",

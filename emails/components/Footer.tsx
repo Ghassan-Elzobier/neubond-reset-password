@@ -7,6 +7,7 @@ export default function Footer() {
       style={{
         backgroundColor: "#8A65BA",
         color: "#fff",
+        width: "100%",
       }}
     >
       <Row>
@@ -73,6 +74,9 @@ export default function Footer() {
                 src="https://app.neubond.co.uk/email/globe_icon.png"
                 alt="globe Icon"
                 width="16px"
+                style={{
+                  display: "block",
+                }}
               />
             </span>
             <span

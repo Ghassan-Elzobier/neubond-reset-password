@@ -10,7 +10,7 @@ import {
 import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 
-export default function ResetPassword() {
+export default function ConfirmAccount() {
   return (
     <Html>
       <Body
@@ -23,7 +23,9 @@ export default function ResetPassword() {
           fontSize: "17px",
         }}
       >
-        <Preview>Reset your password and get back into your account</Preview>
+        <Preview>
+          One quick step to finish setting up your Neubond account
+        </Preview>
         <Container
           align="center"
           style={{
@@ -45,18 +47,12 @@ export default function ResetPassword() {
           />
 
           <h1 style={{ fontSize: "40px", textAlign: "center" }}>
-            Password Reset
+            Confirm Account
           </h1>
           <h4 style={{ padding: 10 }}>
-            After you click the button, you'll be asked to complete the
-            following steps:
+            After you click the button, your account will be confirmed and you
+            can sign into the app.
           </h4>
-          <ol style={{ display: "inline-block" }}>
-            <li>Enter a new Password</li>
-            <li>Confirm your new passowrd</li>
-            <li>Click Submit</li>
-          </ol>
-
           <Button
             href=""
             style={{
@@ -72,14 +68,14 @@ export default function ResetPassword() {
               color: "rgb(255,255,255)",
             }}
           >
-            RESET YOUR PASSWORD
+            CONFIRM YOUR ACCOUNT
           </Button>
           <h3 style={{ textAlign: "center" }}>
             This link is valid for one use only. Expires in 2 hours.
           </h3>
           <p style={{ textAlign: "center" }}>
-            If you didn’t request a password reset, you can safely ignore this
-            email, your account will remain unchanged.
+            If you didn’t create this account, you can safely ignore this email.
+            Your account won’t be activated unless you confirm it.
           </p>
           <Footer />
         </Container>
