@@ -9,14 +9,9 @@ import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 export function UpdatePasswordForm({
-  token_hash,
-  type,
   className,
   ...props
-}: {
-  token_hash: string | null;
-  type: string | null;
-} & React.ComponentPropsWithoutRef<"form">) {
+}: React.ComponentPropsWithoutRef<"form">) {
   const supabase = createClient();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -40,11 +35,6 @@ export function UpdatePasswordForm({
     e.preventDefault();
     setError(null);
 
-    if (!token_hash || !type) {
-      setError("Invalid or expired reset link.");
-      return;
-    }
-
     if (!passwordValid) {
       setError("Password must be 8+ characters with a symbol.");
       return;
@@ -58,25 +48,11 @@ export function UpdatePasswordForm({
     setIsLoading(true);
 
     try {
-      // ⭐ STEP 1 — Verify OTP (creates a session)
-      const { error: otpError } = await supabase.auth.verifyOtp({
-        type: type as any,
-        token_hash,
-      });
-
-      if (otpError) throw otpError;
-
-      // ⭐ STEP 2 — Update password
-      const { error: updateError } = await supabase.auth.updateUser({
-        password,
-      });
-
-      if (updateError) throw updateError;
-
-      // ⭐ STEP 3 — Sign out after reset
-      await supabase.auth.signOut();
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
 
       setSuccess(true);
+      await supabase.auth.signOut();
     } catch (err: any) {
       setError(err.message ?? "An error occurred");
     } finally {
@@ -107,6 +83,7 @@ export function UpdatePasswordForm({
           <div className="text-sm text-red-500 text-center mb-1">{error}</div>
         )}
 
+        {/* Header spacing adjusted here */}
         <div className="flex flex-col items-center gap-1.5 text-center">
           <h1 className="text-2xl font-bold">Reset your password</h1>
           <p className="text-sm text-muted-foreground text-balance mb-3.5">

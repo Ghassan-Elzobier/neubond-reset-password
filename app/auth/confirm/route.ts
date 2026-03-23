@@ -1,7 +1,7 @@
+import { createClient } from "@/lib/supabase/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -9,34 +9,25 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/";
 
-  if (!token_hash || !type) {
-    redirect(`/auth/error?error=No token hash or type`);
-  }
+  if (token_hash && type) {
+    const supabase = await createClient();
 
-  // ⭐ CASE 1: PASSWORD RESET (recovery)
-  // Do NOT verify OTP here — pass it to the next page
-  if (type === "recovery") {
-    const url = new URL(next, request.url);
-    url.searchParams.set("token_hash", token_hash);
-    url.searchParams.set("type", type);
-    redirect(url.toString());
-  }
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    });
 
-  // ⭐ CASE 2: SIGNUP or EMAIL CHANGE
-  // These SHOULD be verified server-side
-  const supabase = await createClient();
-  const { error } = await supabase.auth.verifyOtp({
-    type,
-    token_hash,
-  });
+    if (!error) {
+      // If this was a signup verification, sign them out immediately
+      if (type === "signup") {
+        await supabase.auth.signOut();
+      }
 
-  if (!error) {
-    if (type === "signup") {
-      await supabase.auth.signOut();
+      redirect(next);
+    } else {
+      redirect(`/auth/error?error=${error.message}`);
     }
-
-    redirect(next);
-  } else {
-    redirect(`/auth/error?error=${error.message}`);
   }
+
+  redirect(`/auth/error?error=No token hash or type`);
 }

@@ -1,15 +1,11 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { GalleryVerticalEnd } from "lucide-react";
 import { UpdatePasswordForm } from "@/components/update-password-form";
-import Image from "next/image";
 import { AppPreview } from "@/components/app-preview";
+import Image from "next/image";
 
 export default function UpdatePasswordPage() {
-  const searchParams = useSearchParams();
-  const token_hash = searchParams.get("token_hash");
-  const type = searchParams.get("type");
-
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Left column */}
@@ -23,10 +19,10 @@ export default function UpdatePasswordPage() {
             <Image
               src="/neubond_logo.png"
               alt="Neubond logo"
-              width={180}
-              height={0}
-              sizes="100vw"
-              style={{ height: "auto" }}
+              width={180} // choose the width you want
+              height={0} // required to allow auto height
+              sizes="100vw" // ensures correct responsive behaviour
+              style={{ height: "auto" }} // keeps aspect ratio
             />
           </a>
         </div>
@@ -34,19 +30,21 @@ export default function UpdatePasswordPage() {
         {/* Form container */}
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <UpdatePasswordForm token_hash={token_hash} type={type} />
+            <UpdatePasswordForm />
           </div>
         </div>
       </div>
 
-      {/* Right column */}
+      {/* Right column: message + preview */}
       <div className="relative hidden lg:flex flex-col items-center justify-center bg-[#8A65BA] p-10 text-white">
+        {/* Friendly message */}
         <div className="max-w-md text-center mb-8">
           <h2 className="text-2xl font-semibold">
             Create a new password to regain access to your account.
           </h2>
         </div>
 
+        {/* App preview */}
         <AppPreview />
       </div>
     </div>
