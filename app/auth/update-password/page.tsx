@@ -1,11 +1,11 @@
-"use client";
+export const dynamic = "force-dynamic";
+
+("use client");
 
 import { useSearchParams } from "next/navigation";
 import { UpdatePasswordForm } from "@/components/update-password-form";
 import Image from "next/image";
 import { AppPreview } from "@/components/app-preview";
-
-export const dynamic = "force-dynamic";
 
 export default function UpdatePasswordPage() {
   const searchParams = useSearchParams();
