@@ -5,6 +5,8 @@ import { UpdatePasswordForm } from "@/components/update-password-form";
 import Image from "next/image";
 import { AppPreview } from "@/components/app-preview";
 
+export const dynamic = "force-dynamic";
+
 export default function UpdatePasswordPage() {
   const searchParams = useSearchParams();
   const token_hash = searchParams.get("token_hash");
