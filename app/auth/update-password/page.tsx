@@ -1,6 +1,4 @@
-export const dynamic = "force-dynamic";
-
-("use client");
+"use client";
 
 import { useSearchParams } from "next/navigation";
 import { UpdatePasswordForm } from "@/components/update-password-form";
