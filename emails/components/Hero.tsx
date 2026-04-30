@@ -31,12 +31,10 @@ export default function Hero() {
         </h2>
 
         <p>
-          Over the next few editions, more participants will be subscribed to
-          the newsletter. If this includes you, welcome to Neubond! We hope you
-          find the information useful. We look forward to sharing updates about
-          our growing development and making you a part of our journey.
+          Over the next few editions, more and more readers will be subscribed
+          to the newsletter. If this includes you, welcome to Neubond! We hope
+          you find the information useful.
         </p>
-
         <p>
           We look forward to sharing updates about our development and making
           you a part of the journey.
