@@ -3,14 +3,14 @@ import { Body, Container, Head, Html, Preview } from "@react-email/components";
 import TopBar from "./components/TopBar";
 import Logo from "./components/Logo";
 import Hero from "./components/Hero";
-import VisionSection from "./components/VisionSection";
-import WorkingOnSection from "./components/WorkingOnSection";
-import LookingAheadSection from "./components/LookingAheadSection";
-import SectionImage from "./components/SectionImage";
+import VisionSection from "./components/Section-1";
+import WorkingOnSection from "./components/Section-2";
+import LookingAheadSection from "./components/Section-4";
+import SectionImage from "./components/Section-2-Image";
 import SocialBlock from "./components/SocialBlock";
 import Disclaimer from "./components/Disclaimer";
 import Footer from "./components/Footer";
-import WhatIsNextSection from "./components/WhatIsNextSection";
+import WhatIsNextSection from "./components/Section-3";
 
 export default function Newsletter() {
   return (

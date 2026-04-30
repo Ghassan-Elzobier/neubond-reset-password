@@ -14,7 +14,7 @@ export default function TopBar() {
           <strong>Neubond Newsletter</strong>
         </Column>
         <Column align="right">
-          <strong>March 3, 2026</strong>
+          <strong>May 1st, 2026</strong>
         </Column>
       </Row>
     </Section>

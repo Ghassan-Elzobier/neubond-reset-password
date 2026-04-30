@@ -24,10 +24,10 @@ export async function GET(request: NextRequest) {
       }
 
       redirect(next);
-    } else {
+    } else {        
       redirect(`/auth/error?error=${error.message}`);
     }
   }
 
   redirect(`/auth/error?error=No token hash or type`);
-}
+                                                                  }

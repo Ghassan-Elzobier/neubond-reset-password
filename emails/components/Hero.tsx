@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <Section>
       <Img
-        src="https://app.neubond.co.uk/email/hero_image_V2_compressed.jpg"
+        src="https://app.neubond.co.uk/email/Newsletter-2/Team_edited.jpg"
         width="100%"
         alt="Welcome to Neubond Hero"
         style={{
@@ -27,13 +27,14 @@ export default function Hero() {
             marginTop: "0px",
           }}
         >
-          Welcome to our first Neubond Newsletter!
+          Welcome to the latest edition of the Neubond Newsletter.
         </h2>
 
         <p>
-          Thank you for joining our journey. We’re especially grateful to have
-          you with us as we build a system designed to support rehabilitation in
-          a meaningful, practical way.
+          Over the next few editions, more participants will be subscribed to
+          the newsletter. If this includes you, welcome to Neubond! We hope you
+          find the information useful. We look forward to sharing updates about
+          our growing development and making you a part of our journey.
         </p>
 
         <p>
