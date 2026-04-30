@@ -31,13 +31,15 @@ export default function Hero() {
         </h2>
 
         <p>
-          Over the next few editions, more and more readers will be subscribed
-          to the newsletter. If this includes you, welcome to Neubond! We hope
-          you find the information useful.
+          It's been a busy few months, from R&D milestones to new faces on the
+          team, we have a lot to share this edition, including how you can get
+          involved in Stroke Awareness Month this May.
         </p>
         <p>
-          We look forward to sharing updates about our development and making
-          you a part of the journey.
+          Our readership is growing with every edition, so if you're joining us
+          for the first time, we're especially glad to have you here. We hope
+          you find everything inside useful, and we look forward to making you a
+          part of the Neubond journey.
         </p>
       </div>
     </Section>

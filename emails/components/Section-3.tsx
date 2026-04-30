@@ -44,7 +44,7 @@ export default function Section3() {
           smoothly in real sessions.
         </li>
         <li style={{ marginBottom: "10px" }}>
-          <strong>App UI Sneak Peek:</strong> We are updating the app interface
+          <strong>App User Interface:</strong> We are updating the app interface
           to refine clarity and user motivation, with cleaner progress visuals,
           simpler exercise flows, and more intuitive information for effective
           exercise.

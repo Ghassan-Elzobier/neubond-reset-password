@@ -21,7 +21,7 @@ export default function Section2() {
           marginTop: "5px",
         }}
       >
-        Team Updates: Welcoming Sarah & Giovanni
+        Team Updates: Welcoming Giovanni & Sarah
       </h1>
       <p>
         <strong>
