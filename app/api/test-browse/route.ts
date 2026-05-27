@@ -1,8 +1,5 @@
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const path = searchParams.get('path') || '';
-
     const tokenRes = await fetch(
       `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`,
       {
@@ -18,23 +15,16 @@ export async function GET(request: Request) {
     );
     const { access_token } = await tokenRes.json();
 
-    // Browse folder contents
-    const url = path
-      ? `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(path)}:/children`
-      : `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root/children`;
-
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${access_token}` }
-    });
+    // List root contents
+    const res = await fetch(
+      `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root/children`,
+      {
+        headers: { Authorization: `Bearer ${access_token}` }
+      }
+    );
     const data = await res.json();
 
-    // Just return names to keep it clean
-    const items = data.value?.map((item: any) => ({
-      name: item.name,
-      type: item.folder ? 'folder' : 'file',
-    }));
-
-    return new Response(JSON.stringify(items, null, 2), {
+    return new Response(JSON.stringify(data, null, 2), {
       headers: { 'Content-Type': 'application/json' }
     });
 
