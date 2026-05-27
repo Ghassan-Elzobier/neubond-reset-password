@@ -14,7 +14,11 @@ export async function GET() {
     console.log('Blob object:', JSON.stringify(blobs[0]));
 
     // Fetch PDF using download URL
-    const pdfRes = await fetch(blobs[0].downloadUrl);
+    const pdfRes = await fetch(blobs[0].url, {
+        headers: {
+        Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+        }
+    });
     const pdfBuffer = await pdfRes.arrayBuffer();
 
     return new Response(pdfBuffer, {
