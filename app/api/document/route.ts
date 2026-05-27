@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { blobs } = await list({ 
-      prefix: 'Instruction for use - Neubond',
+      prefix: 'document',
       token: process.env.BLOB_READ_WRITE_TOKEN,
     });
     
