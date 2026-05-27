@@ -22,10 +22,10 @@ export async function GET() {
     const filePath = "0. QMS/1. DHF Loop I/3. Phase III - Design Outputs/IFU & Labels (manufacturer information)/NBD-LP1-IFU-001 Rev 01 Neubond IFU.docx";
 
     const fileRes = await fetch(
-      `https://graph.microsoft.com/v1.0/sites/neubond.sharepoint.com,${process.env.SHAREPOINT_SITE_ID}/drive/root:/${encodeURIComponent(filePath)}:/content?format=pdf`,
-      {
+        `https://graph.microsoft.com/v1.0/drives/b!r3RlGcbS5kakGaO6-Xf3r6BZRHN6UiNOiGRGWaW1cFReOUKxLVzFQI95Vg1r9A1L/root:/${encodeURIComponent(filePath)}:/content?format=pdf`,
+    {
         headers: { Authorization: `Bearer ${access_token}` }
-      }
+    }
     );
 
     if (!fileRes.ok) {
