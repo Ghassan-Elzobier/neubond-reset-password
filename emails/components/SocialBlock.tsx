@@ -12,7 +12,6 @@ export default function SocialBlock() {
   return (
     <Section
       style={{
-        backgroundColor: "#8A65BA",
         color: "#fff",
         width: "100%",
         maxWidth: "700px",
@@ -23,6 +22,7 @@ export default function SocialBlock() {
     >
       <Row
         style={{
+          backgroundColor: "#8A65BA",
           textAlign: "center",
         }}
       >
