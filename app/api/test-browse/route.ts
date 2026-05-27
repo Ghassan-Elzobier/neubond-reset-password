@@ -17,7 +17,7 @@ export async function GET() {
 
     // Browse inside 0. QMS using its item ID
     const res = await fetch(
-      `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/items/01G6J3RA3IVQVVEIU4WBELJK4VYOCZAP5F/children`,
+      `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/items/01G6J3RA3B3K3Q362LZVCLBLPSPUQKIR2O/children`,
       {
         headers: { Authorization: `Bearer ${access_token}` }
       }
