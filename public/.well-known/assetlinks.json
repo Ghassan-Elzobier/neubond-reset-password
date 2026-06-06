@@ -1,0 +1,35 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nabeel.neubond2",
+      "sha256_cert_fingerprints": [
+        "3D90E2EEDCC1F277538AA6B9BC4C5B7267AFD68AB52B9ACA0CF7B6528992519D",
+        "84EB994D1CC5F35BEE5627F7911CDFF95DA69EF823DC2D0FE3FD872FA777D645"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.neubond.neubondtest",
+      "sha256_cert_fingerprints": [
+        "3D90E2EEDCC1F277538AA6B9BC4C5B7267AFD68AB52B9ACA0CF7B6528992519D",
+        "84EB994D1CC5F35BEE5627F7911CDFF95DA69EF823DC2D0FE3FD872FA777D645"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.neubond.neubondresearch",
+      "sha256_cert_fingerprints": [
+        "3D90E2EEDCC1F277538AA6B9BC4C5B7267AFD68AB52B9ACA0CF7B6528992519D",
+        "84EB994D1CC5F35BEE5627F7911CDFF95DA69EF823DC2D0FE3FD872FA777D645"
+      ]
+    }
+  }
+]
