@@ -1,12 +1,108 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+
+// ---------------------------------------------------------------------------
+// Validators — mirrors Validators class in validators.dart
+// ---------------------------------------------------------------------------
+
+const PASSWORD_UPPERCASE = /[A-Z]/;
+const PASSWORD_LOWERCASE = /[a-z]/;
+const PASSWORD_DIGIT = /[0-9]/;
+const PASSWORD_SYMBOL = /[!@#$%^&*(),.?":{}|<>]/;
+
+function isValidPassword(password: string): boolean {
+  if (password.length < 8 || password.length > 128) return false;
+  if (!PASSWORD_UPPERCASE.test(password)) return false;
+  if (!PASSWORD_LOWERCASE.test(password)) return false;
+  if (!PASSWORD_DIGIT.test(password)) return false;
+  if (!PASSWORD_SYMBOL.test(password)) return false;
+  return true;
+}
+
+// mirrors Validators.missingPasswordRequirementLabels
+function missingPasswordRequirements(password: string): string[] {
+  const missing: string[] = [];
+  if (password.length < 8) {
+    missing.push("At least 8 characters");
+  } else if (password.length > 128) {
+    missing.push("At most 128 characters");
+  }
+  if (!PASSWORD_UPPERCASE.test(password)) missing.push("One uppercase letter");
+  if (!PASSWORD_LOWERCASE.test(password)) missing.push("One lowercase letter");
+  if (!PASSWORD_DIGIT.test(password)) missing.push("One number");
+  if (!PASSWORD_SYMBOL.test(password)) missing.push("One symbol (!@#$%^&*…)");
+  return missing;
+}
+
+// ---------------------------------------------------------------------------
+// Feedback helpers — mirrors PasswordFieldFeedback in auth_form_widgets.dart
+// ---------------------------------------------------------------------------
+
+type FeedbackVariant = "hint" | "valid" | "invalid" | "neutral";
+
+interface Feedback {
+  lines: string[]; // first item is the main message, rest are bullet items
+  variant: FeedbackVariant;
+}
+
+// mirrors PasswordFieldFeedback.forSignUpPassword
+function passwordFeedbackFor(password: string, touched: boolean): Feedback {
+  if (!touched || password.length === 0) {
+    return { lines: ["Create a strong password."], variant: "hint" };
+  }
+  if (isValidPassword(password)) {
+    return { lines: ["Password strength looks good."], variant: "valid" };
+  }
+  const missing = missingPasswordRequirements(password);
+  return {
+    lines: ["Still needed:", ...missing.map((r) => `• ${r}`)],
+    variant: "invalid",
+  };
+}
+
+// mirrors PasswordFieldFeedback.forSignUpConfirmPassword
+function confirmFeedbackFor(
+  password: string,
+  confirm: string,
+  touched: boolean,
+): Feedback {
+  if (!touched || confirm.length === 0) {
+    return {
+      lines: [
+        password.length === 0
+          ? "Re-enter your password."
+          : "Re-enter your password.",
+      ],
+      variant: "hint",
+    };
+  }
+  if (confirm !== password) {
+    return { lines: ["Passwords do not match."], variant: "invalid" };
+  }
+  // matches but password itself may still be invalid — show neutral "match" not green
+  if (!isValidPassword(password)) {
+    return { lines: ["Passwords match."], variant: "neutral" };
+  }
+  return { lines: ["Passwords match."], variant: "valid" };
+}
+
+const variantClass: Record<FeedbackVariant, string> = {
+  hint: "text-muted-foreground",
+  valid: "text-green-600",
+  invalid: "text-red-500",
+  neutral: "text-muted-foreground",
+};
+
+// ---------------------------------------------------------------------------
+// Form
+// ---------------------------------------------------------------------------
 
 export function UpdatePasswordForm({
   className,
@@ -20,23 +116,36 @@ export function UpdatePasswordForm({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Touched — set true on first keystroke, mirrors Flutter controller.addListener
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [confirmTouched, setConfirmTouched] = useState(false);
+
+  // Submit-time gate for red border on password field, mirrors Flutter _showPasswordFieldValidation
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const passwordValid = password.length >= 8 && /[^A-Za-z0-9]/.test(password);
+  const passwordValid = isValidPassword(password);
   const passwordsMatch =
     confirmPassword.length > 0 && password === confirmPassword;
 
+  useEffect(() => {
+    if (password.length > 0) setPasswordTouched(true);
+  }, [password]);
+
+  useEffect(() => {
+    if (confirmPassword.length > 0) setConfirmTouched(true);
+  }, [confirmPassword]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setSubmitAttempted(true);
     setError(null);
 
     if (!passwordValid) {
-      setError("Password must be 8+ characters with a symbol.");
+      setError("Please fix the password requirements before continuing.");
       return;
     }
 
@@ -59,6 +168,13 @@ export function UpdatePasswordForm({
       setIsLoading(false);
     }
   }
+
+  const passwordFeedback = passwordFeedbackFor(password, passwordTouched);
+  const confirmFeedback = confirmFeedbackFor(
+    password,
+    confirmPassword,
+    confirmTouched,
+  );
 
   if (success) {
     return (
@@ -83,7 +199,6 @@ export function UpdatePasswordForm({
           <div className="text-sm text-red-500 text-center mb-1">{error}</div>
         )}
 
-        {/* Header spacing adjusted here */}
         <div className="flex flex-col items-center gap-1.5 text-center">
           <h1 className="text-2xl font-bold">Reset your password</h1>
           <p className="text-sm text-muted-foreground text-balance mb-3.5">
@@ -102,18 +217,14 @@ export function UpdatePasswordForm({
               placeholder="Create a strong password"
               className={cn(
                 "pr-10 transition-colors",
-                password.length > 0 && passwordValid && "border-green-600",
-                passwordTouched &&
-                  password.length > 0 &&
-                  !passwordValid &&
-                  "border-red-500",
+                passwordTouched && passwordValid && "border-green-600",
+                // Red border only after submit attempt, mirrors Flutter _showPasswordFieldValidation
+                submitAttempted && !passwordValid && "border-red-500",
               )}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              onBlur={() => setPasswordTouched(true)}
             />
-
             <Button
               type="button"
               variant="ghost"
@@ -126,25 +237,19 @@ export function UpdatePasswordForm({
             </Button>
           </div>
 
-          <p className="text-sm mt-0.5 h-5 mb-2">
-            {!passwordTouched && !passwordValid && (
-              <span className="text-muted-foreground">
-                Use 8+ characters with a symbol.
-              </span>
+          {/* Multi-line bullet feedback, mirrors forSignUpPassword bullet list */}
+          <div
+            className={cn(
+              "text-sm mt-0.5 mb-2 min-h-5",
+              variantClass[passwordFeedback.variant],
             )}
-
-            {password.length > 0 && passwordValid && (
-              <span className="text-green-600">
-                Password strength looks good.
-              </span>
-            )}
-
-            {passwordTouched && password.length > 0 && !passwordValid && (
-              <span className="text-red-500">
-                Must be 8+ characters with a symbol.
-              </span>
-            )}
-          </p>
+          >
+            {passwordFeedback.lines.map((line, i) => (
+              <p key={i} className="leading-snug">
+                {line}
+              </p>
+            ))}
+          </div>
         </Field>
 
         {/* Confirm Password */}
@@ -158,20 +263,13 @@ export function UpdatePasswordForm({
               placeholder="Type it again to confirm"
               className={cn(
                 "pr-10 transition-colors",
-                confirmPassword.length > 0 &&
-                  passwordsMatch &&
-                  "border-green-600",
-                confirmTouched &&
-                  confirmPassword.length > 0 &&
-                  !passwordsMatch &&
-                  "border-red-500",
+                confirmFeedback.variant === "valid" && "border-green-600",
+                confirmFeedback.variant === "invalid" && "border-red-500",
               )}
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              onBlur={() => setConfirmTouched(true)}
             />
-
             <Button
               type="button"
               variant="ghost"
@@ -184,17 +282,18 @@ export function UpdatePasswordForm({
             </Button>
           </div>
 
-          <p className="text-sm mt-0.5 h-5 mb-4">
-            {confirmPassword.length > 0 && passwordsMatch && (
-              <span className="text-green-600">Passwords match.</span>
+          <div
+            className={cn(
+              "text-sm mt-0.5 mb-4 min-h-5",
+              variantClass[confirmFeedback.variant],
             )}
-
-            {confirmTouched &&
-              confirmPassword.length > 0 &&
-              !passwordsMatch && (
-                <span className="text-red-500">Passwords do not match.</span>
-              )}
-          </p>
+          >
+            {confirmFeedback.lines.map((line, i) => (
+              <p key={i} className="leading-snug">
+                {line}
+              </p>
+            ))}
+          </div>
         </Field>
 
         <Field>
