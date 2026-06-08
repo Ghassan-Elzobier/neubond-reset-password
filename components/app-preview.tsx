@@ -9,7 +9,7 @@ export function AppPreview() {
       <div className="bg-black rounded-[2rem] p-4 shadow-2xl border border-white/20 w-full max-w-[700px]">
         <div className="rounded-xl overflow-hidden">
           <Image
-            src="/app-preview-img.png"
+            src="/App-Screenshot.png"
             alt="Neubond app preview"
             width={700}
             height={500}

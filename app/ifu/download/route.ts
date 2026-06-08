@@ -1,0 +1,51 @@
+import { type NextRequest } from "next/server";
+import { get } from "@vercel/blob";
+import { createClient } from "@/lib/supabase/server";
+
+const NOINDEX = "noindex, nofollow";
+
+const labelFor = (pathname: string) =>
+  pathname.replace(/^ifu\//, "").replace(/\.pdf$/, "");
+
+export async function GET(request: NextRequest) {
+  if (process.env.IFU_REQUIRE_AUTH === "true") {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getClaims();
+    if (error || !data?.claims) {
+      return Response.redirect(new URL("/auth/login", request.url));
+    }
+  }
+
+  const file = request.nextUrl.searchParams.get("file");
+
+  if (!file || !file.startsWith("ifu/") || !file.endsWith(".pdf")) {
+    return new Response("Invalid file parameter.", {
+      status: 400,
+      headers: { "X-Robots-Tag": NOINDEX },
+    });
+  }
+
+  const result = await get(file, {
+    access: "private",
+    token: process.env.BLOB_READ_WRITE_TOKEN,
+  });
+
+  if (!result || result.statusCode !== 200) {
+    return new Response("File not found.", {
+      status: 404,
+      headers: { "X-Robots-Tag": NOINDEX },
+    });
+  }
+
+  const label = labelFor(file);
+
+  return new Response(result.stream, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="IFU-${label}.pdf"`,
+      "X-Robots-Tag": NOINDEX,
+      "Cache-Control": "no-store",
+    },
+  });
+}
