@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="IFU-${label}.pdf"`,
+      "Content-Disposition": `inline; filename="IFU-${label}.pdf"`,
       "Content-Length": buffer.byteLength.toString(),
       "X-Robots-Tag": NOINDEX,
       "Cache-Control": "no-store",
